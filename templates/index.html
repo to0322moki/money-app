@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>残額カウントアプリ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <h1>残額カウントアプリ</h1>
+
+  <p>収入：{{ income }}円</p>
+  <p>固定費：{{ fixed_cost }}円</p>
+  <p>目標貯金額：{{ saving_goal }}円</p>
+  <p>使用可能額：{{ usable_amount }}円</p>
+  
+  <!-- 入力フォーム -->
+  <form method="POST">
+    <input type="number" name="amount" placeholder="支出金額を入力" required>
+    <input type="text" name="memo" placeholder="メモ（任意）">
+    <button type="submit">登録</button>
+  </form>
+
+  <!-- 縦バー -->
+  <div class="bar">
+    <div class="bar-fill {{ bar_color }}" style="height: {{ remain_ratio }}%;"></div>
+  </div>
+
+
+  <p>使用額：<span id="used-amount">{{ used_amount }}円</span></p>
+  <p>残り自由枠：<span id="free-balance">{{ free_balance }}円</span></p>
+  <h2>今月の貯金額：<span id="total-saving">{{ total_saving }}円</span></h2>
+
+
+  <h3>今月の履歴</h3>
+  <table border="1" cellpadding="5" id="history-table">
+    <tr>
+      <th>日付</th>
+      <th>金額</th>
+      <th>メモ</th>
+      <th>操作</th>
+    </tr>
+    {% for item in history %}
+    <tr id="row-{{ item.id }}">
+      <td>{{ item.date }}</td>
+      <td>{{ item.amount }}円</td>
+      <td>{{ item.memo }}</td>
+      <td><button onclick="deleteExpense({{ item.id }})">削除</button></td>
+    </tr>
+
+    {% endfor %}
+  </table>
+
+  <script>
+    function deleteExpense(id) {
+      fetch(`/delete/${id}`, { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById(`row-${id}`).remove(); // 行を削除
+
+            // 数値を更新
+            document.getElementById("used-amount").innerText = data.used_amount + "円";
+            document.getElementById("free-balance").innerText = data.free_balance + "円";
+            document.getElementById("total-saving").innerText = data.total_saving + "円";
+
+            // バーを更新
+            let bar = document.querySelector(".bar-fill");
+            bar.style.height = data.remain_ratio + "%";
+            bar.className = "bar-fill " + data.bar_color;
+          }
+
+
+
+        });
+    }
+  </script>
+
+
+  <p><a href="/history">過去の月をみる</a></p>
+  <p><a href="/settings">固定費設定ページへ</a></p>
+</body>
+
+</html>

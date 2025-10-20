@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>固定費設定</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>今月の設定</h1>
+    <form method="POST">
+
+        <h2>収入</h2>
+        <p><input type="nuFSber" name="income" value="{{ settings.income }}"></p>
+
+        <h2>完全固定費</h2>
+        <p>スマホ: <input type="number" name="phone" value="{{ settings.phone }}"></p>
+        <p>自動車保険: <input type="number" name="car_insurance" value="{{ settings.car_insurance }}"></p>
+        <p>生命保険: <input type="number" name="life_insurance" value="{{ settings.life_insurance }}"></p>
+        <p>サブスク: <input type="number" name="subscription" value="{{ settings.subscription }}"></p>
+        <p>自動車ローン: <input type="number" name="car_loan" value="{{ settings.car_loan }}"></p>
+        <p>家賃: <input type="number" name="rent" value="{{ settings.rent }}"></p>
+
+        <h2>変動費</h2>
+        <p>ガソリン: <input type="number" name="gasoline" value="{{ settings.gasoline }}"></p>
+        <p>美容院: <input type="number" name="beauty" value="{{ settings.beauty }}"></p>
+        <p>電気: <input type="number" name="electricity" value="{{ settings.electricity }}"></p>
+        <p>水道: <input type="number" name="water" value="{{ settings.water }}"></p>
+        <p>ガス: <input type="number" name="gas" value="{{ settings.gas }}"></p>
+
+        <h2>貯金目標</h2>
+        <p><input type="number" name="saving_goal" value="{{ settings.saving_goal }}"></p>
+
+        <button type="submit">保存</button>
+    </form>
+
+    <p><a href="/">トップページへ戻る</a></p>
+</body>
+
+</html>

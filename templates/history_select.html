@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>履歴選択</title>
+</head>
+<body>
+  <h1>履歴を見る月を選んでください</h1>
+  <ul>
+    {% for m in months %}
+      <li><a href="{{ url_for('history_detail', year_month=m) }}">{{ m }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="/">トップページへ戻る</a></p>
+  
+</body>
+</html>

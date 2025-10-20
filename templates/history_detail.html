@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ year_month }} の履歴</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>{{ year_month }} の履歴</h1>
+
+  <p>収入：{{ income }}円</p>
+  <p>固定費：{{ fixed_cost }}円</p>
+  <p>目標貯金額：{{ saving_goal }}円</p>
+  <p>使用可能額：{{ usable_amount }}円</p>
+  <p>現在使用額：{{ used_amount }}円</p>
+
+  <!-- 縦バー -->
+  <div class="bar">
+    <div class="bar-fill {{ bar_color }}" style="height: {{ remain_ratio }}%;"></div>
+  </div>
+
+  <p>残り自由枠：{{ free_balance }}円</p>
+  <h2>今月の貯金額：{{ total_saving }}円</h2>
+
+  <h3>支出履歴</h3>
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>日付</th>
+      <th>金額</th>
+      <th>メモ</th>
+    </tr>
+    {% for item in history %}
+    <tr>
+      <td>{{ item.date }}</td>
+      <td>{{ item.amount }}円</td>
+      <td>{{ item.memo }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/history">月選択へ戻る</a></p>
+  <p><a href="/">トップページへ戻る</a></p>
+</body>
+</html>
